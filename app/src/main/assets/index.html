@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>LANXX GAME BOOSTER</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#050505;color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
+:root{--red:#ff304f;--panel:#151519}
+#intro{position:fixed;inset:0;background:#030303;z-index:5;display:flex;align-items:center;justify-content:center;overflow:hidden;animation:fadeout .7s ease 3.4s forwards}
+.logoText{font-size:clamp(52px,15vw,92px);font-weight:1000;font-style:italic;letter-spacing:-5px;text-shadow:0 0 12px #ff304f,0 0 35px #8b0018;white-space:nowrap}
+.logoText span{color:var(--red)}
+.left{animation:leftIn 1s cubic-bezier(.2,.8,.2,1) both}.right{display:inline-block;animation:rightIn 1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes leftIn{from{transform:translateX(-120vw);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes rightIn{from{transform:translateX(120vw);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes fadeout{to{opacity:0;visibility:hidden;pointer-events:none}}
+header{padding:25px 20px 12px;text-align:center}header h1{margin:0;font-size:29px;font-style:italic;letter-spacing:2px}header h1 span{color:var(--red)}
+.sub{font-size:10px;letter-spacing:4px;color:#888;margin-top:7px}
+.wrap{padding:14px;max-width:540px;margin:auto}
+.card{background:linear-gradient(145deg,#19191e,#0d0d10);border:1px solid #38383e;border-radius:17px;padding:17px;margin:13px 0;box-shadow:0 8px 25px #000}
+.title{font-weight:800;letter-spacing:1px;margin-bottom:13px;color:#ff526b}
+.game{display:flex;align-items:center;gap:13px}.gameIcon{width:55px;height:55px;border-radius:12px;background:#2a1017;display:grid;place-items:center;color:#ff526b;font-size:25px;font-weight:bold;border:1px solid #7a1c30}
+.gameInfo{flex:1}.gameInfo b{display:block;font-size:14px}.gameInfo small{color:#888}
+button{border:0;border-radius:10px;background:linear-gradient(100deg,#a90022,#ff304f);color:white;font-weight:800;padding:12px 15px;letter-spacing:.5px}
+button:active{transform:scale(.97)}.wide{width:100%;margin-top:10px}
+label{font-size:12px;color:#bbb;display:block;margin:13px 0 7px}
+input[type=range]{width:100%;accent-color:#ff304f}input[type=color]{width:100%;height:40px;background:#222;border:0;border-radius:8px}
+.row{display:flex;gap:9px}.row button{flex:1}.muted{color:#999;font-size:12px;line-height:1.5}
+.status{display:flex;justify-content:space-between;color:#aaa;font-size:11px;padding:6px 2px}
+footer{text-align:center;color:#555;font-size:10px;padding:25px}
+</style>
+</head>
+<body>
+<div id="intro"><div class="logoText"><span class="left">LAN</span><span class="right">XX</span></div></div>
+<header><h1>LAN<span>XX</span></h1><div class="sub">GAME BOOSTER • GAMING PANEL</div></header>
+<main class="wrap">
+ <section class="card">
+  <div class="title">GAME LAUNCHER</div>
+  <div class="game"><div class="gameIcon">FF</div><div class="gameInfo"><b>FREEFIRETH</b><small>Garena Free Fire</small></div><button onclick="launch('th')">START</button></div>
+  <div style="height:15px"></div>
+  <div class="game"><div class="gameIcon">MAX</div><div class="gameInfo"><b>FREE FIRE MAX</b><small>Garena Free Fire MAX</small></div><button onclick="launch('max')">START</button></div>
+ </section>
+ <section class="card">
+  <div class="title">FLOATING WINDOW</div>
+  <p class="muted">Aktifkan izin tampil di atas aplikasi lain untuk menggunakan tombol LANXX dan crosshair saat bermain.</p>
+  <button class="wide" onclick="enableOverlay()">ENABLE FLOATING WINDOW</button>
+  <button class="wide" style="background:#29292e" onclick="stopOverlay()">STOP FLOATING WINDOW</button>
+ </section>
+ <section class="card">
+  <div class="title">CROSSHAIR CUSTOMIZER</div>
+  <label>WARNA CROSSHAIR</label><input id="color" type="color" value="#ff304f" oninput="updateCross()">
+  <label>UKURAN: <span id="sizeVal">34</span> PX</label><input id="size" type="range" min="16" max="100" value="34" oninput="updateCross()">
+  <p class="muted">Geser crosshair langsung di layar untuk mengubah posisinya. Crosshair hanya tampilan visual dan tidak mengubah mekanisme game.</p>
+  <button class="wide" onclick="updateCross()">APPLY CROSSHAIR</button>
+ </section>
+ <section class="card">
+  <div class="title">DEVICE SHORTCUTS</div>
+  <div class="row"><button onclick="openSettings()">ANDROID SETTINGS</button><button onclick="alert('Gunakan fitur Recent Apps Android untuk berpindah aplikasi.')">APP SWITCHER INFO</button></div>
+  <p class="muted">Membuka aplikasi lain akan menggunakan fitur multitasking Android. Aplikasi tidak dapat menyisipkan aplikasi lain ke dalam layar game secara universal.</p>
+ </section>
+ <div class="status"><span>LANXX ENGINE</span><span>VERSION 1.0.0</span></div>
+</main>
+<footer>LANXX GAME BOOSTER • MADE FOR ANDROID</footer>
+<script>
+function launch(g){if(window.Lanxx)Lanxx.launchGame(g);else alert('Launcher hanya tersedia di APK Android.')}
+function enableOverlay(){if(window.Lanxx)Lanxx.enableOverlay();else alert('Overlay hanya tersedia di APK Android.')}
+function stopOverlay(){if(window.Lanxx)Lanxx.stopOverlay();}
+function updateCross(){let c=document.getElementById('color').value,s=+document.getElementById('size').value;document.getElementById('sizeVal').textContent=s;if(window.Lanxx)Lanxx.configureCrosshair(c,s);}
+function openSettings(){if(window.Lanxx)Lanxx.openAndroidSettings();}
+setTimeout(()=>{document.getElementById('intro').style.display='none'},4200);
+</script>
+</body></html>
+  
